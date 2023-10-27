@@ -4,10 +4,11 @@ repository:
     - git@github.com:dmaharana/git-repo-search.git
     - git@github.com:dmaharana/demp_repo4.git
   searchTerms:
-    - titu
-    - google
-    - added
-    - branch
-    - b2
+    - TITU
+    - GOOGLE
+    - ADDED
+    - BRANCH
+    - B2
+  searchCaseSensitive: true
   cloneDir: "./dump"
   cleanUpDir: true
