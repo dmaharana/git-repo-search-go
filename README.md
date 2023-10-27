@@ -8,7 +8,7 @@
 
 ### Finally if any results are found then a CSV file is created with the results
 
-    - REPO_URL, BRANCH, SEARCH_TERM, LINE_NUMBER, CONTENT
+    - REPO_URL, BRANCH, SEARCH_TERM, FILE_NAME, LINE_NUMBER, CONTENT
     - Output file name will be accepted from the config file
 
 `Usage: ./search-github-branches <config yaml file>`

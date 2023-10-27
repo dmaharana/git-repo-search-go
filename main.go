@@ -60,7 +60,7 @@ func (c *YamlConfig) searchGitHubBranches() {
 	// report back to a csv file with headers REPO_NAME,BRANCH,FOUND_TXT,COUNT
 	log.Println("Searching for terms in branches...")
 	results := make([][]string, 0)
-	header := []string{"REPO_URL", "BRANCH", "SEARCH_TERM", "LINE_NUMBER", "CONTENT"}
+	header := []string{"REPO_URL", "BRANCH", "SEARCH_TERM", "LINE_NUMBER", "FILE_NAME", "CONTENT"}
 	outputFilePath := path.Join("./", c.Repository.OutputFile)
 
 
@@ -142,7 +142,7 @@ func (c *YamlConfig) searchGitHubBranches() {
 					log.Println(g.LineNumber)
 					// log.Println(g.Content)
 
-					row := []string{repo, branch, sterm, fmt.Sprint(g.LineNumber), g.Content}
+					row := []string{repo, branch, sterm, g.FileName, fmt.Sprint(g.LineNumber), g.Content}
 					results = append(results, row)
 				}
 
