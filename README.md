@@ -14,3 +14,5 @@
 `Usage: ./search-github-branches <config yaml file>`
 
 #### TODO: Perform clone and search parallely
+
+### This project was developed with [Amazon CodeWhisperer](https://aws.amazon.com/codewhisperer/)
