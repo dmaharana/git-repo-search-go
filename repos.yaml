@@ -12,5 +12,4 @@ repository:
   matchWord: true
   cloneDir: "./dump"
   cleanUpDir: true
-  outputFile: "results.csv"
-  # outputFile: "search-github-branches-results.csv"
+  outputFile: "search-github-branches-results.csv"

@@ -135,12 +135,12 @@ func (c *YamlConfig) searchGitHubBranches() {
 				if err != nil {
 					log.Fatal(err)
 				}
-				log.Println("Found: " + fmt.Sprint(gr))
+				// log.Println("Found: " + fmt.Sprint(gr))
 				for _, g := range gr {
+					log.Println(g.TreeName)
 					log.Println(g.FileName)
 					log.Println(g.LineNumber)
-					log.Println(g.Content)
-					log.Println(g.TreeName)
+					// log.Println(g.Content)
 
 					row := []string{repo, branch, sterm, fmt.Sprint(g.LineNumber), g.Content}
 					results = append(results, row)
