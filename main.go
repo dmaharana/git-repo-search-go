@@ -19,7 +19,6 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-
 type Repo struct {
 	Name     string
 	Branches []string
@@ -60,9 +59,8 @@ func (c *YamlConfig) searchGitHubBranches() {
 	// report back to a csv file with headers REPO_NAME,BRANCH,FOUND_TXT,COUNT
 	log.Println("Searching for terms in branches...")
 	results := make([][]string, 0)
-	header := []string{"REPO_URL", "BRANCH", "SEARCH_TERM", "LINE_NUMBER", "FILE_NAME", "CONTENT"}
+	header := []string{"REPO_URL", "BRANCH", "SEARCH_TERM", "FILE_NAME", "LINE_NUMBER", "CONTENT"}
 	outputFilePath := path.Join("./", c.Repository.OutputFile)
-
 
 	for _, repo := range c.Repository.Names {
 		log.Println("Repository URL: " + repo)
