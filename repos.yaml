@@ -9,6 +9,7 @@ repository:
     - ADDED
     - BRANCH
     - B2
-  searchCaseSensitive: true
+  searchCaseSensitive: false
+  matchWord: true
   cloneDir: "./dump"
   cleanUpDir: true

@@ -28,6 +28,7 @@ type YamlConfig struct {
 		Names       []string `yaml:"names"`
 		SearchTerms []string `yaml:"searchTerms"`
 		SearchCaseSensitive bool     `yaml:"searchCaseSensitive"`
+		MatchWord bool     `yaml:"matchWord"`
 		CloneDir    string   `yaml:"cloneDir"`
 		CleanUpDir  bool     `yaml:"cleanUpDir"`
 	}
@@ -110,11 +111,17 @@ func (c *YamlConfig) searchGitHubBranches() {
 				log.Println("Searching for term: " + sterm)
 				// searchTerm(directory, term)
 				searchPattern := sterm
+				if c.Repository.MatchWord {
+					log.Println("Matching whole word")
+					searchPattern = "\\b"+searchPattern+"\\b"
+				}
+
 				if !c.Repository.SearchCaseSensitive {
 					log.Println("Case insensitive search")
 					searchPattern = "(?i)"+sterm
 				}
-				
+
+
 				grepOptions := git.GrepOptions{
 					Patterns: []*regexp.Regexp{regexp.MustCompile(searchPattern)},
 				}
