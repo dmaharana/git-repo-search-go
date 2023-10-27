@@ -6,6 +6,7 @@ package main
 // report back to a csv file with headers REPO_NAME,BRANCH,FOUND_TXT,COUNT
 
 import (
+	"encoding/csv"
 	"fmt"
 	"log"
 	"os"
@@ -18,6 +19,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+
 type Repo struct {
 	Name     string
 	Branches []string
@@ -25,12 +27,13 @@ type Repo struct {
 
 type YamlConfig struct {
 	Repository struct {
-		Names       []string `yaml:"names"`
-		SearchTerms []string `yaml:"searchTerms"`
+		Names               []string `yaml:"names"`
+		SearchTerms         []string `yaml:"searchTerms"`
 		SearchCaseSensitive bool     `yaml:"searchCaseSensitive"`
-		MatchWord bool     `yaml:"matchWord"`
-		CloneDir    string   `yaml:"cloneDir"`
-		CleanUpDir  bool     `yaml:"cleanUpDir"`
+		MatchWord           bool     `yaml:"matchWord"`
+		CloneDir            string   `yaml:"cloneDir"`
+		CleanUpDir          bool     `yaml:"cleanUpDir"`
+		OutputFile          string   `yaml:"outputFile"`
 	}
 }
 
@@ -56,6 +59,10 @@ func (c *YamlConfig) searchGitHubBranches() {
 	// search for the terms
 	// report back to a csv file with headers REPO_NAME,BRANCH,FOUND_TXT,COUNT
 	log.Println("Searching for terms in branches...")
+	results := make([][]string, 0)
+	header := []string{"REPO_URL", "BRANCH", "SEARCH_TERM", "LINE_NUMBER", "CONTENT"}
+	outputFilePath := path.Join("./", c.Repository.OutputFile)
+
 
 	for _, repo := range c.Repository.Names {
 		log.Println("Repository URL: " + repo)
@@ -113,14 +120,13 @@ func (c *YamlConfig) searchGitHubBranches() {
 				searchPattern := sterm
 				if c.Repository.MatchWord {
 					log.Println("Matching whole word")
-					searchPattern = "\\b"+searchPattern+"\\b"
+					searchPattern = "\\b" + searchPattern + "\\b"
 				}
 
 				if !c.Repository.SearchCaseSensitive {
 					log.Println("Case insensitive search")
-					searchPattern = "(?i)"+sterm
+					searchPattern = "(?i)" + sterm
 				}
-
 
 				grepOptions := git.GrepOptions{
 					Patterns: []*regexp.Regexp{regexp.MustCompile(searchPattern)},
@@ -135,11 +141,13 @@ func (c *YamlConfig) searchGitHubBranches() {
 					log.Println(g.LineNumber)
 					log.Println(g.Content)
 					log.Println(g.TreeName)
+
+					row := []string{repo, branch, sterm, fmt.Sprint(g.LineNumber), g.Content}
+					results = append(results, row)
 				}
-				
+
 			}
 		}
-
 
 		log.Println("Clean up flag: " + fmt.Sprint(c.Repository.CleanUpDir))
 		if c.Repository.CleanUpDir {
@@ -150,6 +158,19 @@ func (c *YamlConfig) searchGitHubBranches() {
 			log.Println("Skipping cleanup.  Set CleanUpDir to 'true' to delete clone directory: " + directory)
 		}
 	}
+
+	if len(results) > 0 {
+		// log.Println("Found results: " + fmt.Sprint(results))
+		// insert headers at the top of the results
+		results = append([][]string{header}, results...)
+		// write results to a csv file
+		writeCSV(results, outputFilePath)
+	} else {
+		log.Println("No results found.")
+	}
+
+	// log.Println("Found results with headers: " + fmt.Sprint(results))
+
 }
 
 func findAllBranches(r *git.Repository) ([]string, error) {
@@ -207,4 +228,27 @@ func NewConfig(path string) (*YamlConfig, error) {
 	}
 
 	return cfg, nil
+}
+
+func writeCSV(results [][]string, filename string) (err error) {
+	// write results to a csv file
+	// write headers
+	// write results
+
+	file, err := os.Create(filename)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	// initialize csv writer
+	w := csv.NewWriter(file)
+	defer w.Flush()
+
+	// write all rows at once
+	w.WriteAll(results)
+
+	log.Println("Results written to: " + filename)
+
+	return nil
 }

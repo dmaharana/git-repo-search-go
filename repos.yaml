@@ -4,12 +4,13 @@ repository:
     - git@github.com:dmaharana/git-repo-search.git
     - git@github.com:dmaharana/demp_repo4.git
   searchTerms:
-    - TITU
     - GOOGLE
     - ADDED
-    - BRANCH
+    - branch
     - B2
   searchCaseSensitive: false
   matchWord: true
   cloneDir: "./dump"
   cleanUpDir: true
+  outputFile: "results.csv"
+  # outputFile: "search-github-branches-results.csv"
