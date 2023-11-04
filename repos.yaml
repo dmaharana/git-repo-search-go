@@ -9,6 +9,7 @@ repository:
     - branch
     - B2
   searchCaseSensitive: false
+  concurrentSearches: 10
   matchWord: true
   cloneDir: "./dump"
   cleanUpDir: true

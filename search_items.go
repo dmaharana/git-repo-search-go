@@ -14,7 +14,8 @@ import (
 )
 
 func (c *YamlConfig) searchItemsInBatches() [][]string {
-	var batchSize = 10
+	var batchSize = c.Repository.ConcurrentSearches
+	
 	header := []string{"REPO_URL", "BRANCH", "SEARCH_TERM", "FILE_NAME", "LINE_NUMBER", "CONTENT"}
 	outputFilePath := path.Join("./", c.Repository.OutputFile)
 

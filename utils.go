@@ -12,6 +12,7 @@ type YamlConfig struct {
 		Names               []string `yaml:"names"`
 		SearchTerms         []string `yaml:"searchTerms"`
 		SearchCaseSensitive bool     `yaml:"searchCaseSensitive"`
+		ConcurrentSearches int      `yaml:"concurrentSearches"`
 		MatchWord           bool     `yaml:"matchWord"`
 		CloneDir            string   `yaml:"cloneDir"`
 		CleanUpDir          bool     `yaml:"cleanUpDir"`
