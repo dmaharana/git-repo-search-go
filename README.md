@@ -1,6 +1,6 @@
 ## This utility helps in searching specific terms in the listed repositories
 
-### Input parameters include
+### Input parameters included in the yaml config file:
 
     - list of git repositories (note currently only public repos are supported)
     - list of search terms
@@ -12,7 +12,5 @@
     - Output file name will be accepted from the config file
 
 `Usage: ./search-github-branches <config yaml file>`
-
-#### TODO: Perform clone and search parallely
 
 ### This project was developed with [Amazon CodeWhisperer](https://aws.amazon.com/codewhisperer/)
